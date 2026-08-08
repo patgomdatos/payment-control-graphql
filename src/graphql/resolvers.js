@@ -14,7 +14,11 @@ const resolvers = {
     funcionarios: (_, __, context) => { requireAuth(context); return employeeService.findAll(); },
     funcionario: (_, { id }, context) => { requireAuth(context); return employeeService.findById(id); },
     processamentos: (_, __, context) => { requireAuth(context); return payrollService.findProcessings(); },
-    historicos: (_, args, context) => { requireAuth(context); return payrollService.findHistory({ competencia: args.competencia, funcionarioId: args.funcionario_id }); }
+    historicos: (_, args, context) => {
+      requireAuth(context);
+      const funcionarioId = args.funcionario_id ?? args.funcionarioId;
+      return payrollService.findHistory({ competencia: args.competencia, funcionarioId });
+    }
   },
   Mutation: {
     login: (_, { email, senha }) => authService.login(email, senha),

@@ -5,9 +5,10 @@ function findProcessingByCompetencia(competencia) {
 }
 function createProcessing(processing) { processamentos.push(processing); return processing; }
 function createHistory(entries) { historicosFuncionarios.push(...entries); return entries; }
-function findHistory({ competencia, funcionarioId } = {}) {
+function findHistory({ competencia, funcionarioId, funcionario_id: funcionarioIdSnake } = {}) {
+  const normalizedFuncionarioId = funcionarioId ?? funcionarioIdSnake;
   return historicosFuncionarios.filter((item) =>
-    (!competencia || item.competencia === competencia) && (!funcionarioId || item.funcionario_id === funcionarioId));
+    (!competencia || item.competencia === competencia) && (!normalizedFuncionarioId || item.funcionario_id === normalizedFuncionarioId));
 }
 function removeByCompetencia(competencia) {
   const processingIndex = processamentos.findIndex((item) => item.competencia === competencia);
